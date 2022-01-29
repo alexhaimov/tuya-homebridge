@@ -111,14 +111,13 @@ class TuyaPlatform {
             data = await api.getDeviceStatus(device.id);
             this.refreshDeviceStates(data,device.id)
            }
-           
-           const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
-           await delay(30 * 1000)
-
         } catch (e) {
           this.log.log('Failed to get device status.')
         }
       }
+
+      const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
+      await delay(30 * 1000)
     }
   }
 
