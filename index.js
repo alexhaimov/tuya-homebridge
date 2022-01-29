@@ -100,11 +100,15 @@ class TuyaPlatform {
       this.addAccessory(device);
     }
 
-    //const type = config.options.projectType == "1" ? "2.0" : "1.0"
-    //let mq = new TuyaOpenMQ(api, type, this.log);
-    //this.tuyaOpenMQ = mq;
-    //this.tuyaOpenMQ.start();
-    //this.tuyaOpenMQ.addMessageListener(this.onMQTTMessage.bind(this));
+    while(true) {
+      
+      for(const device of devices) {
+        let status_data = await api.getDeviceStatus(device.id);
+        this.refreshDeviceStates(status_data,device.id)
+      }
+
+      await new Promise(r => setTimeout(r, 10 * 1000));
+    }
   }
 
   addAccessory(device) {
@@ -195,27 +199,9 @@ class TuyaPlatform {
 
   }
 
-  //Handle device deletion, addition, status update
-  async onMQTTMessage(message) {
-    if (message.bizCode) {
-      if (message.bizCode == 'delete') {
-        const uuid = this.api.hap.uuid.generate(message.devId);
-        const homebridgeAccessory = this.accessories.get(uuid);
-        this.removeAccessory(homebridgeAccessory)
-      } else if (message.bizCode == 'bindUser') {
-        let deviceInfo = await this.tuyaOpenApi.getDeviceInfo(message.bizData.devId)
-        let functions = await this.tuyaOpenApi.getDeviceFunctions(message.bizData.devId)
-        let device = Object.assign(deviceInfo, functions);
-        this.addAccessory(device)
-      }
-    } else {
-      this.refreshDeviceStates(message)
-    }
-  }
-
   //refresh Accessorie status
-  async refreshDeviceStates(message) {
-    const uuid = this.api.hap.uuid.generate(message.devId);
+  async refreshDeviceStates(message,device_id) {
+    const uuid = this.api.hap.uuid.generate(device_id);
     const deviceAccessorie = this.deviceAccessories.get(uuid);
     if (deviceAccessorie) {
       deviceAccessorie.updateState(message);
