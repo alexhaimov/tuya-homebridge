@@ -100,16 +100,16 @@ class TuyaPlatform {
       this.addAccessory(device);
     }
 
-    let status_data;
+    let data;
     while(true) {
       
       for(const device of devices) {
         try {
-           status_data = await api.getDeviceStatus(device.id);
-           this.refreshDeviceStates(status_data,device.id)
+           data = await api.getDeviceStatus(device.id);
+           this.refreshDeviceStates(data.result,device.id)
            
            const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
-           await delay(10 * 1000)
+           await delay(30 * 1000)
 
         } catch (e) {
           this.log.log('Failed to get device status.')
