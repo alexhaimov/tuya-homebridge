@@ -100,11 +100,11 @@ class TuyaPlatform {
       this.addAccessory(device);
     }
 
-    const type = config.options.projectType == "1" ? "2.0" : "1.0"
-    let mq = new TuyaOpenMQ(api, type, this.log);
-    this.tuyaOpenMQ = mq;
-    this.tuyaOpenMQ.start();
-    this.tuyaOpenMQ.addMessageListener(this.onMQTTMessage.bind(this));
+    //const type = config.options.projectType == "1" ? "2.0" : "1.0"
+    //let mq = new TuyaOpenMQ(api, type, this.log);
+    //this.tuyaOpenMQ = mq;
+    //this.tuyaOpenMQ.start();
+    //this.tuyaOpenMQ.addMessageListener(this.onMQTTMessage.bind(this));
   }
 
   addAccessory(device) {
