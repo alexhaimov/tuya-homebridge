@@ -105,8 +105,12 @@ class TuyaPlatform {
       
       for(const device of devices) {
         try {
-           data = await api.getDeviceStatus(device.id);
-           this.refreshDeviceStates(data.result,device.id)
+           var deviceType = device.category;
+           
+           if (deviceType == 'kt') {
+            data = await api.getDeviceStatus(device.id);
+            this.refreshDeviceStates(data.result,device.id)
+           }
            
            const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
            await delay(30 * 1000)
