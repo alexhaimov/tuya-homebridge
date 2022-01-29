@@ -109,7 +109,7 @@ class TuyaPlatform {
            
            if (deviceType == 'kt') {
             data = await api.getDeviceStatus(device.id);
-            this.refreshDeviceStates(data.result,device.id)
+            this.refreshDeviceStates(data,device.id)
            }
            
            const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
